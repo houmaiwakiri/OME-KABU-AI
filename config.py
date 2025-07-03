@@ -4,7 +4,8 @@ from datetime import time
 TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # 認識対象領域の座標設定（左上から横X, 左上から縦Y, 幅, 高さ）
-CAPTURE_REGION = (940, 490, 450, 25)
+CAPTURE_REGION_PRICE = (520, 175, 50, 25)
+CAPTURE_REGION_VWAP = (1150, 290, 220, 20)
 
 # 注文エリアの位置（スピード注文）
 ORDER_BUY_POSITION = (1380, 330)      # 買い「信用新規」
