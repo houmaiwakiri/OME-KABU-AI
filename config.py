@@ -8,11 +8,11 @@ CAPTURE_REGION_PRICE = (520, 175, 50, 25)
 CAPTURE_REGION_VWAP = (1150, 290, 220, 20)
 
 # 注文エリアの位置（スピード注文）
-ORDER_BUY_POSITION = (1380, 330)      # 買い「信用新規」
-ORDER_SELL_POSITION = (1380, 270)     # 売り「信用返済」
+ORDER_BUY_POSITION = (1630, 330)      # 買い「信用新規」選択
+ORDER_SELL_POSITION = (1730, 330)     # 売り「信用返済」選択
 
-ORDER_BUY_BUTTON = (1330, 490)        # 「買い」注文ボタン
-ORDER_SELL_BUTTON = (1180, 490)       # 「売り」注文ボタン
+ORDER_BUY_BUTTON = (1530, 540)        # 「買い」注文ボタン
+ORDER_SELL_BUTTON = (1785, 540)       # 「売り」注文ボタン
 
 # 注文ロット
 ORDER_QUANTITY = "100"

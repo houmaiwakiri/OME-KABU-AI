@@ -9,24 +9,24 @@ from modules.order import place_buy_order, place_sell_order
 pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 
 def main():
-    print("Starting bot...")
+    print("[INFO]Start!!")
     already_ordered = False
 
     try:
         while True:
             price, vwap = get_price_info()
-            print(f"Price: {price}, VWAP: {vwap}")
+            print(f"[INFO] Price: {price}, VWAP: {vwap}")
 
             action = should_trade(price, vwap)
 
             if action == "buy" and not already_ordered:
                 place_buy_order()
                 already_ordered = True
-                print("BUY ORDER SENT")
+                print("[INFO] BUY")
             elif action == "sell" and not already_ordered:
                 place_sell_order()
                 already_ordered = True
-                print("SELL ORDER SENT")
+                print("[INFO] SELL")
 
             time.sleep(10)
     finally:
