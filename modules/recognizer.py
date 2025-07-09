@@ -17,18 +17,23 @@ def preprocess_for_ocr(pil_img):
 
 def extract_vwap(text):
     vwap = None
+    # カンマ削除
+    text = text.replace(",", "")
     for line in text.splitlines():
         line = line.strip()
         if "VWAP" in line.upper():
-            found = re.findall(r"\d{3,5}\.\d+", line)
+            found = re.findall(r"\d{1,6}\.\d{1,10}", line)
             if found:
                 vwap = float(found[0])
     return vwap
 
 def extract_price(text):
-    found = re.findall(r"\d{3,6}", text.replace(",", ""))
+    found = re.findall(r"\d{1,3}(?:,\d{3})*(?:\.\d+)?", text)
     if found:
-        return int(found[0])
+        # カンマ除去数値変換
+        cleaned = found[0].replace(",", "")
+        #小数点除去
+        return int(float(cleaned))
     return None
 
 
