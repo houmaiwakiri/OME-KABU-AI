@@ -1,122 +1,78 @@
-# 株式自動売買システム（HYPER SBI 2 + Python
+# OME-KABU-AI
 
-## 概要
+OME-KABU-AI は、VWAP（出来高加重平均価格）および現在値を OCR で取得し、一定の条件に基づいて自動的に買い／売り注文を行う、Python 製の株式自動売買システムです。
 
-このプロジェクトは、HYPER SBI 2 のチャート画面を画像認識で解析し、ルールベースで売買判断を行い、自動で発注処理を行う Windows 向けの株式自動売買システムです。
+## 構成
 
-AI や深層学習は使用せず、チャート画像からのパターン検出・数値認識と定義済みルールに基づいて自動売買を行います。
+OME-KABU-AI/  
+　 main.py  
+　 config.py  
+　 requirements.txt  
+　 modules/  
+　　 order.py  
+　　 capture.py  
+　　 rule.py
+(その他のモジュール)
+debug/
+(デバッグ用スクリプトやツール)
 
-## 特徴
+## 機能
 
-✅ HYPER SBI 2 のチャート画面を画像で解析（OCR・色認識）
+- 画面上の価格情報を領域指定でキャプチャ
+- OpenCV と Tesseract OCR による VWAP と現在値の文字認識
+- 10 秒ごとの売買判断と自動注文（信用新規・信用返済）
+- PyAutoGUI を使ったスピード注文操作
 
-✅ ルールベースの売買判断（閾値やローソク足のパターン）
+## 使用ライブラリ
 
-✅ Python による GUI 自動操作で注文を発注
+- pyautogui
+- pytesseract
+- opencv-python
+- Pillow
+- pandas（必要に応じて）
 
-✅ モジュール分離による保守性・拡張性の高い設計
+## セットアップ手順
 
-## システムアーキテクチャ
+1. Tesseract OCR をインストール  
+    Windows の場合は以下にインストールされるのが一般的です：
+   C:\Program Files\Tesseract-OCR\tesseract.exe
 
-```
-+---------------------+
-| HYPER SBI 2         |
-| （チャート表示）      |
-+----------+----------+
-           |
-           ▼ 画面キャプチャ（OpenCV）
-+----------+----------+
-| 画像処理モジュール   |（OCR / 色判定など）
-+----------+----------+
-           |
-           ▼
-+----------+----------+
-| 売買判断ロジック     |（ルールベース）
-+----------+----------+
-           |
-           ▼
-+----------+----------+
-| 自動発注モジュール   |（pyautogui / pywinauto）
-+---------------------+
+python
+コピーする
+編集する
 
-```
+`config.py` に以下のようにパスを指定してください：
 
-## ディレクトリ構成
+```python
+TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+Pythonパッケージのインストール
 
-```
-project_root/
-│
-├─ main.py                    # 実行エントリーポイント
-├─ requirements.txt
-├─ modules/
-│   ├─ __init__.py
-│   ├─ capture.py
-│   ├─ ocr.py
-│   ├─ pattern_detector.py
-│   ├─ region_detector.py
-│   ├─ signal_detector.py
-│   └─ order_executor.py
+bash
+コピーする
+編集する
+pip install -r requirements.txt
+各種設定（config.py）
 
-```
+python
+コピーする
+編集する
+# 画面キャプチャ領域やクリック位置などを環境に合わせて調整
+CAPTURE_REGION_PRICE = (x, y, width, height)
+ORDER_BUY_BUTTON = (x, y)
 
-## コンポーネント
+実行方法
+bash
+コピーする
+編集する
+python main.py
+main.py の内容：
 
-### 1. データ取得
+現在値とVWAPを取得
 
-- **リアルタイムチャート監視:**
-  - OpenCV を使用して HYPER SBI 2 の画面を継続キャプチャ。
-  - 3 分足のローソク足チャートと一目均衡表を監視。
+条件に応じて buy / sell / close を判断
 
-### 2. データ処理
+該当する注文操作を実行
 
-- **Vision Transformer (ViT):**
-  - チャート画像（ローソク足、一目均衡表など）から特徴を抽出。
-- **トランスフォーマー (時系列分析):**
-  - 過去の OHLCV データを分析し、トレンドを予測。
-
-### 3. 予測モデル
-
-- **統合分析:**
-  - ViT とトランスフォーマーの特徴量を統合。
-  - リアルタイムで「上昇 or 下降」の確率を出力。
-
-## ワークフロー
-
-1. **リアルタイム監視:** OpenCV を使用してライブチャートを取得。
-2. **特徴抽出:**
-   - ViT で画像の特徴（チャートパターン）を抽出。
-   - トランスフォーマーで時系列データ（価格推移）を分析。
-3. **予測:**
-   - マルチモーダルモデルが両方の特徴を統合。
-   - 株価の上昇・下降の確率を出力。
-
-## 必要環境
-
-- **Python 3.x**
-- **ライブラリ:**
-  - easyocr torch torchvision timm ultralytics opencv-python pyautogui pillow pywinauto easyocr
-
-## インストール
-
-```bash
-pip install pyautogui pytesseract opencv-python pillow pandas
-
-
-## 使い方
-
-1. **HYPER SBI 2 のセットアップ:**
-   - チャート画面を開き、監視用に設定。
-2. **リアルタイム監視の実行:**
-   - python main.py
-
-## 今後の課題
-
-- **モデルの最適化:**
-  - 異なるトランスフォーマーや ViT のアーキテクチャを試す。
-- **パフォーマンス向上:**
-  - GPU を活用し、推論速度を高速化。
-
-## ライセンス
-
-.LICENSE に記載の通り
+デバッグ
+debug/mouse_position.pyでカーソル座標取得可能
 ```

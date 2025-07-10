@@ -2,8 +2,8 @@ import time
 import pytesseract
 import cv2
 from config import TESSERACT_PATH
-from modules.recognizer import get_price_info
-from modules.rule_engine import should_trade
+from modules.capture import get_price_info
+from modules.rule import should_trade
 from modules.order import place_order
 
 pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
