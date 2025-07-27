@@ -7,7 +7,7 @@ from config import (
     ORDER_BUY_BUTTON,
     ORDER_SELL_BUTTON,
 )
-
+from modules.logger import log_info
 # 現状、注文数量は100固定
 def click_and_type(position, order_quantity):
     # pyautogui.typewrite(order_quantity)
@@ -15,7 +15,7 @@ def click_and_type(position, order_quantity):
     pyautogui.doubleClick()
 
 def place_order(order_type):
-    print("[INFO] "+ order_type + " ordered")
+    log_info(order_type + " ordered")
     if order_type == "buy":
         pyautogui.moveTo(*ORDER_OPEN_POSITION)  # 信用新規買い
         pyautogui.click()

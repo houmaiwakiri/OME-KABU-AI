@@ -5,7 +5,7 @@ OUTPUT_DIR = "output"
 
 def _get_log_filename(prefix: str) -> str:
     date_str = datetime.now().strftime("%Y%m%d")
-    filename = f"{prefix}_{date_str}.log"
+    filename = f"{prefix}_{date_str}.csv"
     return os.path.join(OUTPUT_DIR, filename)
 
 def _timestamp() -> str:
@@ -26,6 +26,12 @@ def log_order(order_type: str, price: float, vwap: float):
 def log_signal(signal: str, price: float, vwap: float):
     filepath = _get_log_filename("signals")
     line = f"[{_timestamp()}] [{signal}] price={price} vwap={vwap}"
+
+    _write_log(filepath, line)
+# インフォログ
+def log_info(message: str):
+    filepath = _get_log_filename("info")
+    line = f"[{_timestamp()}] [INFO] {message}"
     _write_log(filepath, line)
 
 # エラーログ

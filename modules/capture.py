@@ -47,6 +47,7 @@ def capture_and_extract(region, extractor_fn, label="", lang="eng"):
     # OCR実行
     text = pytesseract.image_to_string(processed_pil, lang=lang, config="--psm 7")
 
+    # デバッグ用：抽出文字列表示
     # print(f"[DEBUG] {label}:{text}\n")
     
     return extractor_fn(text)
