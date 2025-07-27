@@ -10,6 +10,7 @@ def capture_image(region):
     return pyautogui.screenshot(region=region)
 
 def preprocess_for_ocr(pil_img):
+    # OCR（pytesseract）で使用できる形式に変換
     img = np.array(pil_img)
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     _, binary = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)
